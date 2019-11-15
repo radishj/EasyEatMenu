@@ -77,7 +77,7 @@ export default {
    },
   methods:{
         submit(){
-            console.log(this.phone, this.password)
+            //console.log(this.phone, this.password)
         },
         DlgUp(){
             this.dialog = true;
@@ -93,7 +93,7 @@ export default {
             vm.user = result.user;
             vm.UID = vm.user.uid;
             vm.showUserID = true;
-            console.log(vm.user);
+            //console.log(vm.user);
             //vm.showPhoneAuthBtn = false;
             //vm.showPassword = true;
             // ...
