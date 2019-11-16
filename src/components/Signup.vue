@@ -31,6 +31,12 @@
                             :type="showPassword ? 'text' : 'password'"
                             @click:append="showPassword = !showPassword"
                             :rules="[rules.required, rules.min6, passwordConfirmationRule]"></v-text-field>
+                        <v-text-field  v-if="showOthers" label="E-Mail" v-model="email" 
+                            prepend-icon="mdi-email-outline"
+                            :rules="[rules.required, rules.email]"></v-text-field>
+                        <v-text-field  v-if="showOthers" label="Address" v-model="address"></v-text-field>
+                        <v-text-field  v-if="showOthers" label="City" v-model="city"></v-text-field>
+                        <v-text-field  v-if="showOthers" label="Post Code" v-model="postcode"></v-text-field>
                         <v-card v-if="showOthers" class="d-flex justify-center text" flat
                             tile>
                             <v-btn id="signup-btn" class="success mx-0 mt-3 text" >SIGN UP</v-btn> 
@@ -59,16 +65,22 @@ export default {
     password: '',
     passwordCopy: '',
     showPassword: false,
+    email: '',
+    address: '',
+    city: '',
+    postcode: '',
     rules: {
             required: value => !!value || 'Input required',
             min6: value => value.length >= 6 || 'Min 6 letters',
             phone: value => {
                 const pattern = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s]{0,1}[0-9]{3}[-\s]{0,1}[0-9]{4}$/
                 return pattern.test(value) || 'Wrong phone number format'
+            },
+            email: value => {
+                const pattern =  /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/
+                return pattern.test(value) || 'Wrong E-Mail format'
             }
         },
-
-    user:{}
   }),
   computed:{
      passwordConfirmationRule() {
