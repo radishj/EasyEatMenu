@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.bbc0e4ea5921eb68434a6bd430607a31.js"
+  "/precache-manifest.1bba31277b706101f3c6ec6ab1b9a54b.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "easy_eat_menu1"});
