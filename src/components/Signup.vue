@@ -29,17 +29,19 @@
                             prepend-icon="mdi-lock-question"
                             :append-icon="showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
                             :type="showPassword ? 'text' : 'password'"
-                            @click:append="showPassword = !showPassword"
                             :rules="[rules.required, rules.min6, passwordConfirmationRule]"></v-text-field>
                         <v-text-field  v-if="showOthers" label="E-Mail" v-model="email" 
                             prepend-icon="mdi-email-outline"
                             :rules="[rules.required, rules.email]"></v-text-field>
+                        <v-text-field  v-if="showOthers" label="FirstName" v-model="firstName"></v-text-field>
+                        <v-text-field  v-if="showOthers" label="LastName" v-model="lastName"></v-text-field>
+                        <v-text-field  v-if="showOthers" label="Gender" v-model="gender"></v-text-field>
                         <v-text-field  v-if="showOthers" label="Address" v-model="address"></v-text-field>
                         <v-text-field  v-if="showOthers" label="City" v-model="city"></v-text-field>
                         <v-text-field  v-if="showOthers" label="Post Code" v-model="postcode"></v-text-field>
                         <v-card v-if="showOthers" class="d-flex justify-center text" flat
                             tile>
-                            <v-btn id="signup-btn" class="success mx-0 mt-3 text" >SIGN UP</v-btn> 
+                            <v-btn id="signup-btn" class="success mx-0 mt-3 text" @click="Signup">SIGN UP</v-btn> 
                         </v-card>
                     </v-form>
                 </v-card-text>
@@ -66,6 +68,9 @@ export default {
     passwordCopy: '',
     showPassword: false,
     email: '',
+    firstName: '',
+    lastName: '',
+    gender: '',
     address: '',
     city: '',
     postcode: '',
@@ -91,8 +96,26 @@ export default {
         submit(){
             //console.log(this.phone, this.password)
         },
-        DlgUp(){
-            this.dialog = true;
+        async resetData(){
+            this.showSignInSubmitBtn = true;
+            this.showPhoneAuthBtn = false;
+            this.phoneAuth = '';
+            this.showPhoneAuth = false;
+
+            this.phone = '';
+            this.showUserID = false;
+            this.UID = '';
+            this.showOthers = false;
+            this.password = '';
+            this.passwordCopy = '';
+            this.showPassword = false;
+            this.email = '';
+            this.firstName = '';
+            this.lastName = '';
+            this.gender = '';
+            this.address = '';
+            this.city = '';
+            this.postcode = '';
         },
         onVerifyCode(){
             let vm = this;
@@ -115,11 +138,11 @@ export default {
                 alert('Phone code verify failed! '+ error);
             });
         },
-        onSignInSubmit(){
+        async onSignInSubmit(){
             //var phoneNumber = this.phone;
             var appVerifier = window.recaptchaVerifier;
             let vm = this;
-            firebase.auth().signInWithPhoneNumber('+1'+vm.phone, appVerifier)
+            await firebase.auth().signInWithPhoneNumber('+1'+vm.phone, appVerifier)
                 .then(function (confirmationResult) {
                 // SMS sent. Prompt user to type the code from the message, then sign the
                 // user in with confirmationResult.confirm(code).
@@ -132,6 +155,46 @@ export default {
                 // ...
                     alert('Recaptcha verify failed! SMS not sent. '+ error);
                 });
+        },
+        async Signup(){
+            var userData = {};
+            userData._id = this.phone;
+            userData.UID = this.UID;
+            userData.password = this.password;
+            if(this.email!='')
+            {
+                userData.email = this.email;
+            }
+            if(this.firstName!='')
+            {
+                userData.first_name = this.firstName;
+            }
+            if(this.email!='')
+            {
+                userData.last_name = this.lastName;
+            }
+            if(this.gender!='')
+            {
+                userData.gender = this.gender;
+            }
+            if(this.address!='')
+            {
+                userData.address = this.address;
+            }
+            if(this.city!='')
+            {
+                userData.city = this.city;
+            }
+            if(this.postCode!='')
+            {
+                userData.post_code = this.postCode;
+            }
+            
+            this.$store.state.db.put(userData);
+            this.$store.state.user.firstName = this.firstName;
+            await this.resetData();
+            this.$store.state.signupDlg.open = false; 
+            this.$emit('userAdded');
         }
     }
  

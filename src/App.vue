@@ -1,6 +1,10 @@
 <template>
   <v-app>
-    <v-app-bar
+    <v-snackbar v-model='snackbar' :timeout='4000' top color='success'>
+      <span>Congratulations! You were signuped in our system.</span>
+      <v-btn flat color="blue" @click="snackbar = false">Close</v-btn>
+    </v-snackbar>
+   <v-app-bar
       app
       color="grey"
       elevation=0
@@ -33,10 +37,11 @@
           color="grey"
           flat
           tile>
-          <v-btn tile v-on:click.stop="$store.state.loginDlg.open = true" class="success">{{this.$store.state.user.name}}</v-btn>
+          <p class = "mr-3 mt-2">{{this.$store.state.user.firstName}}</p>
+          <v-btn tile v-on:click.stop="$store.state.loginDlg.open = true" class="success">{{this.logBtnTxt}}</v-btn>
           <v-btn id="SignUp" tile v-on:click.stop="$store.state.signupDlg.open = true" class="success">SignUp</v-btn></v-card>
-        <Login />
-        <Signup />
+        <Login  @userAdded="Login"/>
+        <Signup @userAdded="Signup"/>
       </v-flex>
     </v-app-bar>
 
@@ -50,6 +55,7 @@
 import firebase from 'firebase'
 import Login from './components/Login'
 import Signup from './components/Signup'
+import {mapMutations} from 'vuex';
 export default {
   name: 'App',
 
@@ -59,9 +65,11 @@ export default {
    },
 
   data: () => ({
- 
+       snackbar: false,
+       logBtnTxt: 'LOGIN'
   }),
   methods:{
+    ...mapMutations(['initData']),
     initReCaptcha(){
       console.log('start......');
       window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('SignUp', {
@@ -75,10 +83,18 @@ export default {
           // ...
           }
       });
+    },
+    Login(){
+      this.logBtnTxt = 'LOGOUT';
+    },
+    Signup(){
+      this.logBtnTxt = 'LOGOUT';
+      this.snackbar = true;
     }
   },
-  mounted(){
-    this.initReCaptcha()
+  async mounted(){
+    this.initReCaptcha();
+    await this.initData();
   } 
 };
 </script>
