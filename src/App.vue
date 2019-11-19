@@ -52,6 +52,7 @@
 </template>
 
 <script>
+/* eslint-disable no-console */
 import firebase from 'firebase'
 import Login from './components/Login'
 import Signup from './components/Signup'
