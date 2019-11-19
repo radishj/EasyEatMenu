@@ -54,7 +54,8 @@ export default {
     methods:{
         async Login(){
             var user = await this.$store.state.db.get(this.phone);
-            if(user && (user.password==this.password))
+            const bcrypt = require('bcrypt');
+            if(user && (bcrypt.compareSync(this.password, user.password)))
             {
                 this.$store.state.user.firstName = user.first_name;
                 this.$emit('userAdded');

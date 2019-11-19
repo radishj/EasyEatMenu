@@ -160,7 +160,9 @@ export default {
             var userData = {};
             userData._id = this.phone;
             userData.UID = this.UID;
-            userData.password = this.password;
+            const bcrypt = require('bcrypt');
+            const saltRounds = 10;
+            userData.password = bcrypt.hashSync(this.password, saltRounds);
             if(this.email!='')
             {
                 userData.email = this.email;
