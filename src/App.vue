@@ -37,8 +37,8 @@
           color="grey"
           flat
           tile>
-          <p class = "mr-3 mt-2">{{this.$store.state.user.firstName}}</p>
-          <v-btn tile v-on:click.stop="$store.state.loginDlg.open = true" class="success">{{this.logBtnTxt}}</v-btn>
+          <p class = "mr-3 mt-2">{{$store.state.userName}}</p>
+          <v-btn tile @click="LoginClick" class="success">{{this.logBtnTxt}}</v-btn>
           <v-btn id="SignUp" tile v-on:click.stop="$store.state.signupDlg.open = true" class="success">SignUp</v-btn></v-card>
         <Login  @userAdded="Login"/>
         <Signup @userAdded="Signup"/>
@@ -89,14 +89,33 @@ export default {
       this.logBtnTxt = 'LOGOUT';
     },
     Signup(){
+      if(this.$store.state.user.login_name && this.$store.state.user.login_name!='')
+        this.$store.state.userName = this.$store.state.user.loginName;
+      else if(this.$store.state.user.first_name && this.$store.state.user.first_name!='')
+        this.$store.state.userName = this.$store.state.user.first_name;
+      else
+        this.$store.state.userName = '';
       this.logBtnTxt = 'LOGOUT';
       this.snackbar = true;
+    }, 
+    LoginClick(){
+      if(this.logBtnTxt == 'LOGIN')
+      {
+        this.$store.state.loginDlg.open = true
+      }
+      else if(this.logBtnTxt == 'LOGOUT')
+      {
+        this.logBtnTxt = 'LOGIN';
+        this.$store.state.user = {};
+        this.$store.state.userName = '';
+      }
+      return false;
     }
   },
   async mounted(){
     this.initReCaptcha();
     await this.initData();
-  } 
+  }
 };
 </script>
 

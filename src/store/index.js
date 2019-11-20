@@ -9,15 +9,17 @@ export default new Vuex.Store({
   state: {
     db: {},
     remoteDb: {},
+    userName: '',
     user:{
-      name: 'Login',
-      firstName: ''
+      first_name: ''
     },
     loginDlg:{
-      open: false
+      open: false,
+      phone: ''
     },
     signupDlg:{
-      open: false
+      open: false,
+      phone: ''
     }
   },
   mutations: {
