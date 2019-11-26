@@ -70,6 +70,7 @@
 </template>
 
 <script>
+/*eslint no-console: [0, { allow: ["warn", "error"] }] */
 import firebase from 'firebase'
 import router from '../router'
 import { serverBus } from '../main';
