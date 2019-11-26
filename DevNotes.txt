@@ -1,0 +1,6 @@
+install
+npm install --save @hscmap/vue-menu
+find
+var t={backgroundColor:"rgba(255, 255, 255, 0.9)"
+change to
+var t={backgroundColor:"#f2dcfa"

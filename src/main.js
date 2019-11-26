@@ -5,6 +5,7 @@ import store from './store'
 import './registerServiceWorker'
 import vuetify from './plugins/vuetify'
 Vue.config.productionTip = false
+Vue.use(require('@hscmap/vue-menu'))
 import firebase from 'firebase'
  // Your web app's Firebase configuration
  var firebaseConfig = {
@@ -29,3 +30,4 @@ new Vue({
   vuetify,
   render: h => h(App)
 }).$mount('#app')
+

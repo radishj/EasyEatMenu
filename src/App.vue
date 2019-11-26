@@ -1,48 +1,61 @@
 <template>
-  <v-app>
+  <v-app style="backgroundColor: #e6dfe6;">
     <v-snackbar v-model='snackbar' :timeout='4000' top color='success'>
       <span>Congratulations! You were signuped in our system.</span>
       <v-btn flat color="blue" @click="snackbar = false">Close</v-btn>
     </v-snackbar>
-   <v-app-bar
+    <v-app-bar
+      color = "#f2dcfa"
+      elevation="1"
       app
-      color="grey"
-      elevation=0
-      dark
     >
-      <div class="d-flex align-center">
+    <hsc-menu-style-white>
+      <hsc-menu-button-menu style="margin: 5px;" >
         <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+            alt="Vuetify Logo"
+            class="shrink mr-2"
+            :src="require('./static/icons/EasyMenu-60x41.png?1')"
+            transition="scale-transition"
+            width="40"
+            
+          />
+        <template slot="contextmenu" v-if='!disableAll'>
+            <hsc-menu-item class="mt-3">
+              <div slot="body">
+                <v-icon left class="mb-1">mdi-clipboard-text</v-icon>
+                <span>Sum</span>       
+              </div>
+            </hsc-menu-item>
+            <hsc-menu-item class="mt-3">
+              <div slot="body">
+                <v-icon left class="mb-1">mdi-account-badge-horizontal</v-icon>
+                <span>Account</span>       
+              </div>
+                <hsc-menu-item label="Information" />
+                <hsc-menu-item label="Password" />
+            </hsc-menu-item>
+            <hsc-menu-item class="mt-3 mb-2">
+              <div slot="body"  @click="Logout">
+                <v-icon left class="mb-1">mdi-location-exit</v-icon>
+                <span>Exit</span>       
+              </div>
+            </hsc-menu-item>
+        </template>
+        </hsc-menu-button-menu>
+      </hsc-menu-style-white>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
+      <v-btn class="ma-1" tile x-large min-width="150px" color="#cdacf9" :disabled='disableAll'>
+        Settings<v-icon right dark>mdi-pencil</v-icon> 
+      </v-btn>
       <v-spacer></v-spacer>
-     
-      <v-flex class="mt-4 mb-3">
-        <v-card class="d-flex justify-end"
-          color="grey"
-          flat
-          tile>
-          <p class = "mr-3 mt-2">{{$store.state.userName}}</p>
-          <v-btn tile @click="LoginClick" class="success">{{this.logBtnTxt}}</v-btn>
-          <v-btn id="SignUp" tile v-on:click.stop="$store.state.signupDlg.open = true" class="success">SignUp</v-btn></v-card>
-        <Login  @userAdded="Login"/>
-        <Signup @userAdded="Signup"/>
-      </v-flex>
+
+      <p class="ma-1">{{ShowUserName()}}</p>
+      <v-btn class="ma-1" tile x-large min-width="150px" color="#cdacf9" :disabled='disableAll'>
+        Phone   <v-icon right dark>mdi-phone-log</v-icon>
+      </v-btn>
+      <v-btn class="ma-1" id="table" tile x-large min-width="150px" color="#cdacf9" :disabled='disableAll'>
+        Table<v-icon right dark>mdi-table-chair</v-icon>
+      </v-btn>
     </v-app-bar>
 
     <v-content>
@@ -54,26 +67,31 @@
 <script>
 /* eslint-disable no-console */
 import firebase from 'firebase'
-import Login from './components/Login'
-import Signup from './components/Signup'
 import {mapMutations} from 'vuex';
+import router from './router'
+import { serverBus } from './main';
 export default {
   name: 'App',
 
   components: {
-    Login,
-    Signup
    },
 
   data: () => ({
+       disableAll: true,
        snackbar: false,
-       logBtnTxt: 'LOGIN'
-  }),
+   }),
   methods:{
     ...mapMutations(['initData']),
+    ShowUserName(){
+      if(typeof this.$store.state.userName != 'undefined')
+      {
+        return this.$store.state.userName;
+      }
+      //console.log(this.$store.state);
+    },
     initReCaptcha(){
       console.log('start......');
-      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('SignUp', {
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('table', {
           'size': 'invisible',
           'callback': function(response) {
           // reCAPTCHA solved, allow signInWithPhoneNumber.
@@ -85,37 +103,41 @@ export default {
           }
       });
     },
-    Login(){
-      this.logBtnTxt = 'LOGOUT';
+
+    Logout(){
+      this.$store.state.userName = '';
+      localStorage.removeItem('phone');
+      this.disableAll = true;
+      router.push('/login');
     },
-    Signup(){
-      if(this.$store.state.user.login_name && this.$store.state.user.login_name!='')
-        this.$store.state.userName = this.$store.state.user.loginName;
-      else if(this.$store.state.user.first_name && this.$store.state.user.first_name!='')
-        this.$store.state.userName = this.$store.state.user.first_name;
-      else
-        this.$store.state.userName = '';
-      this.logBtnTxt = 'LOGOUT';
-      this.snackbar = true;
-    }, 
-    LoginClick(){
-      if(this.logBtnTxt == 'LOGIN')
-      {
-        this.$store.state.loginDlg.open = true
-      }
-      else if(this.logBtnTxt == 'LOGOUT')
-      {
-        this.logBtnTxt = 'LOGIN';
-        this.$store.state.user = {};
-        this.$store.state.userName = '';
-      }
-      return false;
+    open() {
+        console.log('open')
+    },
+    close() {
+        console.log('close')
     }
   },
   async mounted(){
     this.initReCaptcha();
-    await this.initData();
+    this.$store.dispatch('initData');
+    this.disableAll = !this.$store.getters.isLoggedIn;
+  },
+  created(){
+    serverBus.$on('EnableMenu', enable => {
+      this.disableAll = !enable;
+    })
   }
 };
+
 </script>
+
+<style>
+.menu {
+  box-shadow: 0 0 8pt rgba(0, 0, 0, 0.25);
+  border-radius: 20pt;
+  background-color:#791079;
+  user-select: none;
+  cursor: context-menu;
+}
+</style>
 
