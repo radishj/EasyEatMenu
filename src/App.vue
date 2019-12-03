@@ -10,7 +10,7 @@
       app
     >
     <hsc-menu-style-white>
-      <hsc-menu-button-menu style="margin: 5px;" >
+      <hsc-menu-button-menu style="margin: 5px;"  :menuZIndex="3" >
         <v-img
             alt="Vuetify Logo"
             class="shrink mr-2"
@@ -44,9 +44,38 @@
         </hsc-menu-button-menu>
       </hsc-menu-style-white>
 
-      <v-btn class="ma-1" tile x-large min-width="150px" color="#cdacf9" :disabled='disableAll'>
-        Settings<v-icon right dark>mdi-pencil</v-icon> 
-      </v-btn>
+    <hsc-menu-style-white>
+      <hsc-menu-button-menu style="margin: 5px;"  :menuZIndex="3" >
+        <div><v-btn class="ma-1" tile x-large min-width="150px" color="#cdacf9" :disabled='disableAll'>
+          Settings<v-icon right dark>mdi-pencil</v-icon> 
+        </v-btn></div>
+
+        <template slot="contextmenu" v-if='!disableAll'>
+            <hsc-menu-item class="mt-3">
+              <div slot="body">
+                <v-icon left class="mb-1">mdi-format-list-text</v-icon>
+                <span>Menu</span>       
+              </div>
+                <hsc-menu-item label="Items" class="py-2"/>
+                <hsc-menu-item label="Modifier" class="py-2"/>
+                <hsc-menu-item label="Tax" class="py-2"/>
+            </hsc-menu-item>
+            <hsc-menu-item class="mt-3">
+              <div slot="body">
+                <v-icon left class="mb-1">mdi-account-box-multiple</v-icon>
+                <span>Member</span>       
+              </div>
+            </hsc-menu-item>
+            <hsc-menu-item class="mt-3 mb-2">
+              <div slot="body"  @click="Logout">
+                <v-icon left class="mb-1">mdi-location-exit</v-icon>
+                <span>Hardware</span>       
+              </div>
+            </hsc-menu-item>
+        </template>
+        </hsc-menu-button-menu>
+      </hsc-menu-style-white>
+
       <v-spacer></v-spacer>
 
       <p class="ma-1">{{ShowUserName()}}</p>
