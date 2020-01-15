@@ -36,55 +36,12 @@ import { serverBus } from '../main';
 import router from '../router'
 export default {
    data: () => ({
-    dialog: false,
-    phone: '',
-    showPass: false,
-    password: '',
-    rules: {
-            required: value => !!value || 'Input required',
-            min6: value => value.length >= 6 || 'Min 6 letters',
-            phone: value => {
-                const pattern = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s]{0,1}[0-9]{3}[-\s]{0,1}[0-9]{4}$/
-                return pattern.test(value) || 'Wrong phone number format'
-            }
-        },
-
-    user:{}
-    }),
+        }),
     computed:{
         
     },
     methods:{
-        async Login(){
-            let phone = this.$store.state.phone 
-            let password = this.password
-            let vm = this;
-            await vm.$store.dispatch('login', { phone, password })
-            .then(() => {
-                serverBus.$emit('EnableMenu',true);
-                if((typeof vm.$store.state.fromPage == 'undefined') || vm.$store.state.fromPage == '' || vm.$store.state.fromPage == '/login')
-                   vm.$store.state.fromPage = '/';
-                if(vm.$store.state.fromPage && vm.$store.state.fromPage!='')
-                    router.push(vm.$store.state.fromPage);
-            })
-            .catch(err => {
-                console.log(err);
-                router.push('/');
-            })
-        },
-        methodToExecuteWhenClosed(){
-            this.password = '';
-        },
-        async RecoverPass(){
-            var user = await this.$store.state.dbUsers.get(this.$store.state.phone).catch(function(){
-                alert('Unknow phone number for us.  Please check the number or Signup new');
-                return false;
-            });
-            if(!user)
-                return false;
-            this.$store.state.recoverPass = true;
-            router.push('/signup');
-        }
+ 
     }
  }
 </script>

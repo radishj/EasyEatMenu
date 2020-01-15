@@ -31,7 +31,7 @@
                 <v-icon left class="mb-1">mdi-account-badge-horizontal</v-icon>
                 <span>Account</span>       
               </div>
-                <hsc-menu-item label="Information" />
+                <hsc-menu-item label="Information" @click="ShowInfo"/>
                 <hsc-menu-item label="Password" />
             </hsc-menu-item>
             <hsc-menu-item class="mt-3 mb-2">
@@ -138,6 +138,9 @@ export default {
       localStorage.removeItem('phone');
       this.disableAll = true;
       router.push('/login');
+    },
+    ShowInfo(){
+      router.push('/UserInfo');
     },
     open() {
         console.log('open')

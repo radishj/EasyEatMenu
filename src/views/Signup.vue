@@ -194,12 +194,12 @@ export default {
             if(this.$store.state.recoverPass)
             {
                 let vm = this;
-                this.$store.state.db.get(vm.$store.state.phone, function(err, retrieved){
+                this.$store.state.dbUsers.get(vm.$store.state.phone, function(err, retrieved){
                     var passwordHash = require('password-hash');
                     var hashedPassword = passwordHash.generate(vm.password);
                     var data = retrieved;
                     data.password = hashedPassword;
-                    vm.$store.state.db.put(data, function(err, ){
+                    vm.$store.state.dbUsers.put(data, function(err, ){
                         if(err){  
                             console.log("COULDN'T CHANGE password");
                         } else {  
@@ -252,7 +252,7 @@ export default {
                 userData.post_code = this.postCode;
             }
             
-            this.$store.state.db.put(userData);
+            this.$store.state.dbUsers.put(userData);
             this.$store.state.user = userData;
             await this.resetData();
             if(this.$store.state.user.login_name!=null && this.$store.state.user.login_name!='')

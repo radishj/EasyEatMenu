@@ -24,12 +24,9 @@ export default new Vuex.Store({
   },
   mutations: {
     initData(state, isLoggedIn){
-      state.remoteDb = new PouchDB('http://mediavictoria.com:5984/users');
-        state.db = new PouchDB('users');
-        state.db.sync(this.state.remoteDb, {
-        live: true,
-        retry: true
-      });
+      state.remoteDbUsers = new PouchDB('http://mediavictoria.com:5984/users');
+        state.dbUsers = new PouchDB('users');
+        state.dbUsers.sync(this.state.remoteDbUsers, {live: true, retry: true});
       //alert(isLoggedIn);
       if(!isLoggedIn)
       {
@@ -37,7 +34,7 @@ export default new Vuex.Store({
       }
       var phone = localStorage.getItem('phone');
       var vm = this;
-      state.db.get(phone).then(res => {
+      state.dbUsers.get(phone).then(res => {
         var user = res;
         state.user = user;
         //console.log('user:'+user);
@@ -54,8 +51,8 @@ export default new Vuex.Store({
         "_id": "123",
         "data": "test"
       };
-      this.state.db.put(user);*/
-      state.db.info().then(function (info) {
+      this.state.dbUsers.put(user);*/
+      state.dbUsers.info().then(function (info) {
         console.log(info);
       })
       /*axios.get('http://mediavictoria.com:3000/fresh/productTypes').then(
@@ -91,7 +88,7 @@ export default new Vuex.Store({
       return new Promise(async(resolve, reject) => {
         commit('auth_request');
         var vm = this;
-      await vm.state.db.get(data.phone)
+      await vm.state.dbUsers.get(data.phone)
         .then(res => {
           var user = res;
           var passwordHash = require('password-hash');
