@@ -32,6 +32,7 @@
 
 
 <script>
+/*eslint no-console: [0, { allow: ["warn", "error"] }] */
 import { serverBus } from '../main';
 import router from '../router'
 export default {
