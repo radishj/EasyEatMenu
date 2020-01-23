@@ -61,7 +61,6 @@ export default {
             let vm = this;
             await vm.$store.dispatch('login', { phone, password })
             .then(() => {
-                this.$store.state.enableNav = true;
                 if((typeof vm.$store.state.fromPage == 'undefined') || vm.$store.state.fromPage == '' || vm.$store.state.fromPage == '/login')
                    vm.$store.state.fromPage = '/';
                 if(vm.$store.state.fromPage && vm.$store.state.fromPage!='')

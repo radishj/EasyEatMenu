@@ -44,7 +44,7 @@
             class="ml-4"
             v-for="(acc, i) in account"
             :key="i"
-            link
+            @click="handle_function_call(acc[2])"
           >
             <v-list-item-icon>
               <v-icon left class="grey--text text--darken-2" v-text="acc[1]"></v-icon>
@@ -130,6 +130,12 @@ export default {
       this.$store.state.enableNav = false;
       router.push('/login');
     },
+    ShowInfo(){
+      router.push('/UserInfo');
+    },
+    handle_function_call(function_name) {
+    this[function_name]()
+    }
   }
 
 };

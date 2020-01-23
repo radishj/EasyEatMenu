@@ -16,7 +16,6 @@
 /* eslint-disable no-console */
 import firebase from 'firebase'
 import {mapMutations} from 'vuex';
-import router from './router'
 import Navbar from '@/components/Navbar'
 export default {
   name: 'App',
@@ -52,10 +51,7 @@ export default {
       });
     },
 
- 
-    ShowInfo(){
-      router.push('/UserInfo');
-    },
+
     open() {
         console.log('open')
     },

@@ -102,6 +102,7 @@ export default new Vuex.Store({
             else if(user.first_name && user.first_name != '')
               vm.state.userName = user.first_name;
             localStorage.setItem('phone', data.phone)
+            vm.state.enableNav = true;
             commit('auth_success', user)
           }
           else{
