@@ -1,8 +1,9 @@
+/* eslint-disable no-console */
+/*eslint no-unused-vars: ["error", { "args": "none" }]*/
 import Vue from 'vue'
 import Vuex from 'vuex'
 import PouchDB from 'pouchdb';
 //import { exists } from 'fs';
-/*eslint no-unused-vars: ["error", { "args": "none" }]*/
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -52,11 +53,11 @@ export default new Vuex.Store({
         "_id": "123",
         "data": "test"
       };
-      this.state.dbUsers.put(user);*/
+      this.state.dbUsers.put(user);
       state.dbUsers.info().then(function (info) {
         console.log(info);
       })
-      /*axios.get('http://mediavictoria.com:3000/fresh/productTypes').then(
+      axios.get('http://mediavictoria.com:3000/fresh/productTypes').then(
           result => {
               //alert(result.data) 
               state.categories = result.data;
