@@ -13,7 +13,8 @@ export default new Vuex.Store({
     userName: '',
     phone: localStorage.getItem('phone'),
     user:{},
-    recoverPass: false
+    recoverPass: false,
+    enableNav: true
   },
   getters : {
     isLoggedIn(){

@@ -33,7 +33,6 @@
 
 <script>
 /*eslint no-console: [0, { allow: ["warn", "error"] }] */
-import { serverBus } from '../main';
 import router from '../router'
 export default {
    data: () => ({
@@ -62,7 +61,7 @@ export default {
             let vm = this;
             await vm.$store.dispatch('login', { phone, password })
             .then(() => {
-                serverBus.$emit('EnableMenu',true);
+                this.$store.state.enableNav = true;
                 if((typeof vm.$store.state.fromPage == 'undefined') || vm.$store.state.fromPage == '' || vm.$store.state.fromPage == '/login')
                    vm.$store.state.fromPage = '/';
                 if(vm.$store.state.fromPage && vm.$store.state.fromPage!='')

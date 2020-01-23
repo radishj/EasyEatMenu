@@ -22,8 +22,6 @@ import firebase from 'firebase'
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
-export const serverBus = new Vue();
-
 new Vue({
   router,
   store,

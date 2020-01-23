@@ -32,8 +32,6 @@
 
 
 <script>
-import { serverBus } from '../main';
-import router from '../router'
 export default {
    data: () => ({
         }),

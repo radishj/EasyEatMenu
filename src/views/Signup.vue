@@ -73,7 +73,6 @@
 /*eslint no-console: [0, { allow: ["warn", "error"] }] */
 import firebase from 'firebase'
 import router from '../router'
-import { serverBus } from '../main';
 export default {
     data: () => ({
     dialog: false,
@@ -261,7 +260,7 @@ export default {
                 this.$store.state.userName = this.$store.state.user.first_name;
             localStorage.setItem('phone', userData._id);
             this.loading = false;
-            serverBus.$emit('EnableMenu',true);
+            this.$store.state.enableNav = true;
             router.push('/');
         }
     }
