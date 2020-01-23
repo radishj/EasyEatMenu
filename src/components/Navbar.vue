@@ -93,6 +93,7 @@
 </template>
 
 <script>
+/* eslint-disable no-console */
 import router from '../router'
 // Light theme
 
@@ -121,7 +122,7 @@ export default {
       {
         return this.$store.state.userName;
       }
-      console.log(this.$store.state);
+      //console.log(this.$store.state);
     },
     Logout(){
       this.$store.state.userName = '';
