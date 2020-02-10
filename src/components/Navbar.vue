@@ -18,13 +18,13 @@
       <v-btn class="ma-1" tile x-large min-width="150px" color="#cdacf9" :disabled='!this.$store.state.enableNav'>
         Phone   <v-icon right dark>mdi-phone-log</v-icon>
       </v-btn>
-      <v-btn class="ma-1" id="table" tile x-large min-width="150px" color="#cdacf9" :disabled='!this.$store.state.enableNav'>
+      <v-btn class="ma-1" id="table" tile x-large min-width="150px" color="#cdacf9" @click="Go('table')" :disabled='!this.$store.state.enableNav'>
         Table<v-icon right dark>mdi-table-chair</v-icon>
       </v-btn>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app temporary color="#f2dcfa">
-      <v-list>
+      <v-list multiple="true">
         <v-list-item>
           <v-list-item-icon>
             <v-icon left class="grey--text text--darken-2">mdi-clipboard-text</v-icon>
@@ -32,8 +32,7 @@
           <v-list-item-title class="grey--text text--darken-2">Sum</v-list-item-title>
         </v-list-item>
 
-        <v-list-group
-          value="true">
+        <v-list-group>
           <template v-slot:activator>
             <v-list-item-icon>
               <v-icon left class="grey--text text--darken-2">mdi-account-badge-horizontal</v-icon>
@@ -44,7 +43,7 @@
             class="ml-4"
             v-for="(acc, i) in account"
             :key="i"
-            @click="handle_function_call(acc[2])"
+            @click="Go(acc[2])"
           >
             <v-list-item-icon>
               <v-icon left class="grey--text text--darken-2" v-text="acc[1]"></v-icon>
@@ -65,7 +64,7 @@
             class="ml-4"
             v-for="(content, i) in contents"
             :key="i"
-            link
+            @click="Go(content[2])"
           >
             <v-list-item-icon>
               <v-icon left class="grey--text text--darken-2" v-text="content[1]"></v-icon>
@@ -109,7 +108,8 @@ export default {
         ['Password', 'mdi-lock-reset', '']
       ],
     contents: [
-        ['Items', 'mdi-sitemap', ''],
+        ['Items', 'mdi-sitemap', '/Items'],
+        ['Tables', 'mdi-table-chair', '/Table'],
         ['Modifier', 'mdi-arrow-decision-outline', ''],
         ['Tax', 'mdi-alpha-t-box-outline', ''],
         ['Hardware', 'mdi-printer-settings', '']
@@ -133,8 +133,8 @@ export default {
     ShowInfo(){
       router.push('/UserInfo');
     },
-    handle_function_call(function_name) {
-    this[function_name]()
+    Go(page){
+      router.push(page);
     }
   }
 

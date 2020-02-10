@@ -5,6 +5,8 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Signup from '../views/Signup.vue'
 import UserInfo from '../views/UserInfo.vue'
+import Table from '../views/Table.vue'
+import Items from '../views/Items.vue'
 
 Vue.use(VueRouter)
 
@@ -26,6 +28,16 @@ const routes = [
     meta: { 
       requiresAuth: true
     }
+  },
+  {
+    path: '/table',
+    name: 'table',
+    component: Table
+  },
+  {
+    path: '/Items',
+    name: 'item',
+    component: Items
   },
   {
      path: '', 
