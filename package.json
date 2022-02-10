@@ -14,7 +14,7 @@
     "dotenv": "^8.2.0",
     "firebase": "^7.4.0",
     "node-pre-gyp": "^0.14.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^7.0.0",
     "password-hash": "^1.2.2",
     "pouchdb": "^7.1.1",
     "register-service-worker": "^1.6.2",
